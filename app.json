@@ -4,7 +4,6 @@
   "repository": "https://github.com/jonbk/kvalue",
   "stack": "heroku-20",
   "addons": [
-    "heroku-postgresql",
     {
       "plan": "heroku-postgresql:hobby-dev",
       "as": "DATABASE",
