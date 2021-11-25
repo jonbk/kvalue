@@ -19,10 +19,8 @@
     }
   ],
   "env": {
-    "KVALUE_USER": "user",
-    "KVALUE_PASSWORD": {
-      "generator": "secret"
-    }
+    "KVALUE_USER": "",
+    "KVALUE_PASSWORD": ""
   },
   "formation": {
     "web": {
