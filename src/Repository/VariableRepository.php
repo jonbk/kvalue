@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Variable;
-use App\Entity\Space;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,10 +12,16 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Variable[]    findAll()
  * @method Variable[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class KvKeyValueRepository extends ServiceEntityRepository
+class VariableRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Variable::class);
+    }
+
+    public function save(Variable $variable):void
+    {
+        $this->_em->persist($variable);
+        $this->_em->flush();
     }
 }

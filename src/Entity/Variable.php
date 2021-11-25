@@ -8,7 +8,7 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
 #[ORM\Index(columns: ["key"])]
-#[ORM\UniqueConstraint(columns: ["group_id", "key"])]
+#[ORM\UniqueConstraint(columns: ["space_id", "key"])]
 class Variable implements \JsonSerializable
 {
     #[ORM\Id]
@@ -16,8 +16,8 @@ class Variable implements \JsonSerializable
     private Uuid $id;
 
     #[ORM\ManyToOne(targetEntity: Space::class)]
-    #[ORM\Column(name: "group_id", nullable: true)]
-    private ?Space $space;
+    #[ORM\JoinColumn(name: "space_id", nullable: false)]
+    private Space $space;
 
     #[ORM\Column(name: "key", type: Types::STRING, length: 255, nullable: false)]
     private string $key;
@@ -25,12 +25,12 @@ class Variable implements \JsonSerializable
     #[ORM\Column(type: Types::STRING, length: 2048, nullable: false)]
     private string $value;
 
-    public function __construct(string $key, string $value, ?Space $space = null)
+    public function __construct(Space $space, string $key, string $value)
     {
         $this->id = Uuid::v4();
+        $this->space = $space;
         $this->key = $key;
         $this->value = $value;
-        $this->space = $space;
     }
 
     public function getId(): Uuid
@@ -48,7 +48,7 @@ class Variable implements \JsonSerializable
         return $this->value;
     }
 
-    public function getSpace(): ?Space
+    public function getSpace(): Space
     {
         return $this->space;
     }

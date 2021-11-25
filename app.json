@@ -1,0 +1,40 @@
+{
+  "name": "kvalue",
+  "description": "Simple secured key/value HTTP server",
+  "repository": "https://github.com/jonbk/kvalue",
+  "stack": "heroku-20",
+  "addons": [
+    "heroku-postgresql",
+    {
+      "plan": "hobby-dev",
+      "as": "DATABASE",
+      "options": {
+        "version": "13"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/php"
+    }
+  ],
+  "env": {
+    "KVALUE_USER": "user",
+    "KVALUE_PASSWORD": {
+      "generator": "secret"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "scripts": {
+    "postdeploy": [
+      "php bin/console doctrine:migration:migrate -n",
+      "php bin/console cache:clear",
+      "php bin/console cache:warmup"
+    ]
+  }
+}
