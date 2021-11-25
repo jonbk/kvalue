@@ -28,14 +28,16 @@ class VariableController extends AbstractController
             ['key' => 'ASC'],
         );
 
-        $output = [];
+        $output = '';
 
         /** @var Variable $variable */
-        foreach ($variables as $variable){
-            $output[$variable->getKey()] = $variable;
+        foreach ($variables as $variable) {
+            $output .= $variable->getKey() . "=" . $variable->getValue()."\r\n";
         }
 
-        return $this->json($output);
+        $response = new Response($output);
+        $response->headers->set('Content-Type', 'text/plain');
+        return $response;
     }
 
     #[Route('/', name: 'post_space', methods: ['POST'])]
@@ -105,7 +107,10 @@ class VariableController extends AbstractController
             return $this->json(['error' => 'Variable not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return $this->json($variable);
+        $response = new Response($variable->getValue());
+        $response->headers->set('Content-Type', 'text/plain');
+
+        return $response;
     }
 
     #[Route('/{spaceName}', name: 'post_variable', methods: ['POST'])]
