@@ -30,12 +30,5 @@
       "quantity": 1,
       "size": "free"
     }
-  },
-  "scripts": {
-    "postdeploy": [
-      "php bin/console doctrine:migration:migrate -n",
-      "php bin/console cache:clear",
-      "php bin/console cache:warmup"
-    ]
   }
 }
