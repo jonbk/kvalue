@@ -6,7 +6,7 @@
   "addons": [
     "heroku-postgresql",
     {
-      "plan": "hobby-dev",
+      "plan": "heroku-postgresql:hobby-dev",
       "as": "DATABASE",
       "options": {
         "version": "13"
