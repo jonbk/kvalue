@@ -22,7 +22,7 @@ class Variable implements \JsonSerializable
     #[ORM\Column(name: "key", type: Types::STRING, length: 255, nullable: false)]
     private string $key;
 
-    #[ORM\Column(type: Types::STRING, length: 2048, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 4096, nullable: false)]
     private string $value;
 
     public function __construct(Space $space, string $key, string $value)
