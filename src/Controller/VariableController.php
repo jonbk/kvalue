@@ -21,7 +21,7 @@ class VariableController extends AbstractController
 {
     #[Route('/{spaceName}', name: 'get_variables', methods: ['GET'])]
     #[ParamConverter('space', options: ['mapping' => ['spaceName' => 'name']])]
-    public function getVariables(VariableRepository $variableRepository, Space $space): Response
+    public function getVariables(Request $request, VariableRepository $variableRepository, Space $space): Response
     {
         $variables = $variableRepository->findBy(
             ['space' => $space],
@@ -32,7 +32,11 @@ class VariableController extends AbstractController
 
         /** @var Variable $variable */
         foreach ($variables as $variable) {
-            $output .= $variable->getKey() . "=" . $variable->getValue()."\r\n";
+            $output .= $variable->getKey() . "=" . $variable->getValue() . "\r\n";
+        }
+
+        if ($request->headers->get('Content-Type') === 'application/json') {
+            return $this->json($variables);
         }
 
         $response = new Response($output);
@@ -86,6 +90,7 @@ class VariableController extends AbstractController
 
     #[Route('/{spaceName}/{variableKey}', name: 'get_variable', methods: ['GET'])]
     public function getVariable(
+        Request $request,
         SpaceRepository $spaceRepository,
         VariableRepository $variableRepository,
         string $spaceName,
@@ -105,6 +110,10 @@ class VariableController extends AbstractController
 
         if (false === $variable instanceof Variable) {
             return $this->json(['error' => 'Variable not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        if ($request->headers->get('Content-Type') === 'application/json') {
+            return $this->json($variable);
         }
 
         $response = new Response($variable->getValue());
