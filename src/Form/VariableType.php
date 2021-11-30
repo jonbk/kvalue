@@ -19,8 +19,7 @@ class VariableType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Regex([
-                        'pattern' => '/^[a-z_\-]+$/i',
-                        'htmlPattern' => '[a-z_\-]+',
+                        'pattern' => '/^[0-9a-z_\-]+$/i',
                         'message' => 'Only a-z, _ and - are accepted'
                     ])
                 ]
